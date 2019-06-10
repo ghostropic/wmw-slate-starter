@@ -9,31 +9,44 @@
 <section class="featured-collection" data-section-id="{{ section.id }}" data-section-type="featured-collection">
   {%- assign collection = collections[section.settings.collection] -%}
 
-  <h2>{{ collection.title | escape }}</h2>
+  <h2 class="fc__heading-1">{{ collection.title | escape }}</h2>
 
-  <p>{{ collection.description }}</p>
-
-  {% for product in collection.products limit: 6 %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+  <p class="fc__copy">{{ collection.description }}</p>
   
-    <a href="{{ product.url | within: collection }}">
-      <div>
-        {% if product.featured_image != blank %}
-          {{ product.featured_image | img_url: 'large' | img_tag }}
-        {% endif %}
-        
-        <span js-ajax-cart="addToCart" data-variant-id="{{ current_variant.id }}" data-quantity="1">Add to cart</span>
-      </div>
+  <div class="carousel" data-flickity='{ 
+    "groupCells": true,
+    "wrapAround": true 
+  }'>
+    {% for product in collection.products limit: 6 %}
+      {% assign current_variant = product.selected_or_first_available_variant %}
+        <div class="carousel-cell">
+          <a href="{{ product.url | within: collection }}">
+            <div class="fc__product-container">
+              <!-- {% if product.tags %}
+                {% for tag in product.tags %}
+                  {{tag}}
+                {% endfor %}
+              {% endif %} -->
+              {% if product.featured_image != blank %}
+                {{ product.featured_image | img_url: 'large' | img_tag }}
+              {% endif %}
+              
+              <span class="fc__add-to-cart-button" js-ajax-cart="addToCart" data-variant-id="{{ current_variant.id }}" data-quantity="1">Add to cart</span>
+            </div>
 
-      <div>
-        <p>{{ product.title | escape }}</p>
+            <div class="fc__product-description">
+              <p class="fc__heading-4">{{ product.title | escape }}</p>
 
-        <span>
-          {% include 'product-price' %}
-        </span>
-      </div>
-    </a>
-  {% endfor %}
+              <span class="fc__price">
+                {% include 'product-price' %}
+              </span>
+            </div>
+          </a>
+        </div>
+    {% endfor %}
+  </div>
+
+  <a class="fc__button-view-collection" href="">View Collection</a>
 </section>
 
 {% schema %}

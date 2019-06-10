@@ -8,6 +8,9 @@
  */
 import {register} from '@shopify/theme-sections';
 
+import Flickity from 'flickity';
+import 'flickity/dist/flickity.min.css';
+
 /**
  * Featured collection constructor
  * Executes on page load as well as Theme Editor `section:load` events.
